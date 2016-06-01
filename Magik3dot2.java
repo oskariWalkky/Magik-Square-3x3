@@ -19,7 +19,7 @@ public class Magik3dot2 {
 						for (int e = 0; e < runNumber; e++) {
 							for (int d = 0; d < runNumber; d++) {
 								for (int c = 0; c < runNumber; c++) {
-									for (int b = 0; c < runNumber; c++) {
+									for (int b = 0; b < runNumber; b++) {
 										for (int a = 0; a < runNumber; a++) {
 											derArray[0] = a;
 											derArray[1] = b;

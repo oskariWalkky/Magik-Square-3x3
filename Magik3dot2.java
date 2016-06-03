@@ -2,16 +2,30 @@
 
 public class Magik3dot2 {
 
-	int[] derArray = new int[9];
 	int printCounter = 0;
+	long howManyCalc = 0;
+	long shouldBe = 1;
+	double inBetweenCal;
+	WriteFile writeFile;
+	long startTime;
+	long inBetweenTime;
+	long endTime;
 
 	public Magik3dot2(int runNumber) {
-
+		
+		//shouldBe = runNumber;
+		for(int i = 0; i < 9; i++){
+			shouldBe = shouldBe * runNumber;
+		}
+		System.out.println("The number of calculations going to run: " + shouldBe);
+		
+		//The runNumber works the same like an arrays position. 10 is 9, 2 is 1 etc.
 		System.out.println("The run number is " + runNumber);
 		System.out.println("Starting calculations...");
+		
+		startTime = System.currentTimeMillis();
 
-		// The nested for-loop works like a speedOmeter. Right to left, or in
-		// this case inner to outer.
+		// The nested for-loop works like a odometer. Right to left
 		for (int i = 0; i < runNumber; i++) {
 			for (int h = 0; h < runNumber; h++) {
 				for (int g = 0; g < runNumber; g++) {
@@ -21,16 +35,9 @@ public class Magik3dot2 {
 								for (int c = 0; c < runNumber; c++) {
 									for (int b = 0; b < runNumber; b++) {
 										for (int a = 0; a < runNumber; a++) {
-											derArray[0] = a;
-											derArray[1] = b;
-											derArray[2] = c;
-											derArray[3] = d;
-											derArray[4] = e;
-											derArray[5] = f;
-											derArray[6] = g;
-											derArray[7] = h;
-											derArray[8] = i;
-
+											
+											howManyCalc++;
+											
 											int[] temp = { a, b, c, d, e, f, g, h, i };
 
 											int sumABC = a + b + c;
@@ -55,11 +62,15 @@ public class Magik3dot2 {
 													// numbers print out so they
 													// align.
 													System.out.println();
-													System.out.println(a + "   " + b + "   " + c);
-													System.out.println(d + "   " + e + "   " + f);
-													System.out.println(g + "   " + h + "   " + i);
+													
+													System.out.printf("%4d %4d %4d\n", a, b, c);
+													System.out.printf("%4d %4d %4d\n", d, e, f);
+													System.out.printf("%4d %4d %4d\n", g, h, i);
+													
 													System.out.println("The sum of the table is " + sumABC);
 													System.out.println();
+
+													//writeFile = new WriteFile(temp, sumABC, runNumber);
 
 													printCounter++;
 
@@ -73,16 +84,27 @@ public class Magik3dot2 {
 					}
 				}
 			}
-			System.out.println("   OH SHIT " + i);
+			System.out.println("   OH SHIT " + i); //shows program is running
+			
+			if (i == 0){
+				eta();
+			}else {
+				inBetweenCalculations();
+			}
+			
 		}
 
 		System.out.println();
 		System.out.println("All Done!");
 		System.out.println("The number of tables counted was " + printCounter);
+		System.out.println("The number of total calculations done was " + howManyCalc);
+		System.out.println("Time taken " + (String.format("%.2f", (double)(System.currentTimeMillis() - startTime)/1000)));
+		
+		//writeFile = new WriteFile(printCounter);
 	}
 
-	// This method checks to see if any number repeats.
-	// Technically it checks twice. Once for the number itself, and second for
+	// Check to see if any number repeats.
+	// Technically checking twice. Once for the number itself, and second for
 	// an actual repeat.
 	public boolean noRepeats(int[] argsArray, int value) {
 
@@ -101,6 +123,25 @@ public class Magik3dot2 {
 		}
 
 		return contains;
+	}
+	
+	private void eta(){
+		//TODO get the eta working at all changes, and add a time stamp
+		System.out.println("How many vs should be  " + howManyCalc + "/" + shouldBe);
+		System.out.println();
+		
+		inBetweenCalculations();
+		
+		inBetweenCal = 1 / (inBetweenCal/100); //turns the percent into a decimal
+		System.out.println("Times needed to be multiplied " + inBetweenCal);
+		
+		inBetweenTime = System.currentTimeMillis() - startTime;
+		System.out.println("ETA " + (String.format("%.2f", (inBetweenTime * inBetweenCal) / 1000)));
+	}
+	
+	private void inBetweenCalculations(){
+		inBetweenCal = (double)howManyCalc/shouldBe * 100; //turns the difference into a percent
+		System.out.println("Percent completed: %" + (String.format("%.1f", inBetweenCal)));
 	}
 
 }

@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 public class Magik3 {
 	public static void main(String[] args) {

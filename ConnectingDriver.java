@@ -1,10 +1,11 @@
 // Easy to access and modify url, user, and pas - used in other classes 
 public class ConnectingDriver {
 
-	private String url = "jdbc:mysql://192.168.10.53/3x3";
-	private String user = "root";
+	//Change to your specific location
+	private String url = "jdbc:mysql://192.168.15.12/3x3";
+	private String user = "user";
 	// TODO How can you avoid storing the pas bellow?
-	private String pas = "Assholes";
+	private String pas = "****************";
 
 	public String getUrl() {
 		return url;

@@ -1,5 +1,3 @@
-//NOTE! Magik3dot2 is a copy of 3dot1, only cleaned up...\\not no more
-
 public class Magik3dot2 {
 
 	int howManyTables = 0;

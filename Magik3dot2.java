@@ -1,14 +1,16 @@
-//NOTE! Magik3dot2 is a copy of 3dot1, only cleaned up
+//NOTE! Magik3dot2 is a copy of 3dot1, only cleaned up...\\not no more
 
 public class Magik3dot2 {
 
-	int printCounter = 0;
+	int howManyTables = 0;
 	long howManyCalc = 0;
 	long shouldBe = 1;
 	double inBetweenCal;
-	WriteFile writeFile;
+	// WriteFile writeFile;
+	WriteDriver writeDriver;
 	long startTime;
-	long inBetweenTime;
+	long inBetweenTimeA;
+	long inBetweenTimeB;
 	long endTime;
 
 	public Magik3dot2(int runNumber) {
@@ -17,15 +19,18 @@ public class Magik3dot2 {
 		for(int i = 0; i < 9; i++){
 			shouldBe = shouldBe * runNumber;
 		}
+		System.out.println();
 		System.out.println("The number of calculations going to run: " + shouldBe);
 		
 		//The runNumber works the same like an arrays position. 10 is 9, 2 is 1 etc.
 		System.out.println("The run number is " + runNumber);
 		System.out.println("Starting calculations...");
+		System.out.println();
 		
 		startTime = System.currentTimeMillis();
+		inBetweenTimeA = startTime;
 
-		// The nested for-loop works like a odometer. Right to left
+		//Every iteration of the odometer checks for equal-sums and no-repeating-numbers. BRUTE FORCE!
 		for (int i = 0; i < runNumber; i++) {
 			for (int h = 0; h < runNumber; h++) {
 				for (int g = 0; g < runNumber; g++) {
@@ -36,6 +41,7 @@ public class Magik3dot2 {
 									for (int b = 0; b < runNumber; b++) {
 										for (int a = 0; a < runNumber; a++) {
 											
+											//Keeps track of iterations
 											howManyCalc++;
 											
 											int[] temp = { a, b, c, d, e, f, g, h, i };
@@ -53,6 +59,7 @@ public class Magik3dot2 {
 													&& sumABC == sumBEH && sumABC == sumCFI && sumABC == sumAEI
 													&& sumABC == sumGEC) {
 
+												//Checks that not number in the array repeats
 												if (noRepeats(temp, a) && noRepeats(temp, b) && noRepeats(temp, c)
 														&& noRepeats(temp, d) && noRepeats(temp, e)
 														&& noRepeats(temp, f) && noRepeats(temp, g)
@@ -70,9 +77,10 @@ public class Magik3dot2 {
 													System.out.println("The sum of the table is " + sumABC);
 													System.out.println();
 
-													//writeFile = new WriteFile(temp, sumABC, runNumber);
+													// writeFile = new WriteFile(temp, sumABC, runNumber);
+													writeDriver = new WriteDriver(temp, sumABC, runNumber);
 
-													printCounter++;
+													howManyTables++;
 
 												}
 											}
@@ -86,21 +94,24 @@ public class Magik3dot2 {
 			}
 			System.out.println("   OH SHIT " + i); //shows program is running
 			
+			//*eta();
+			/*
 			if (i == 0){
 				eta();
 			}else {
 				inBetweenCalculations();
 			}
+			*/
 			
 		}
 
 		System.out.println();
 		System.out.println("All Done!");
-		System.out.println("The number of tables counted was " + printCounter);
+		System.out.println("The number of tables counted was " + howManyTables);
 		System.out.println("The number of total calculations done was " + howManyCalc);
 		System.out.println("Time taken " + (String.format("%.2f", (double)(System.currentTimeMillis() - startTime)/1000)));
 		
-		//writeFile = new WriteFile(printCounter);
+		//writeFile = new WriteFile(howManyTables);
 	}
 
 	// Check to see if any number repeats.
@@ -125,18 +136,22 @@ public class Magik3dot2 {
 		return contains;
 	}
 	
+	
+	////////////////////////////////Not in use atm/////////////////////////////////////////
+	@SuppressWarnings("unused")
 	private void eta(){
 		//TODO get the eta working at all changes, and add a time stamp
-		System.out.println("How many vs should be  " + howManyCalc + "/" + shouldBe);
+		//*System.out.println("How many vs should be  " + howManyCalc + "/" + shouldBe);
 		System.out.println();
 		
 		inBetweenCalculations();
 		
 		inBetweenCal = 1 / (inBetweenCal/100); //turns the percent into a decimal
-		System.out.println("Times needed to be multiplied " + inBetweenCal);
+		//*System.out.println("Times needed to be multiplied " + inBetweenCal);
 		
-		inBetweenTime = System.currentTimeMillis() - startTime;
-		System.out.println("ETA " + (String.format("%.2f", (inBetweenTime * inBetweenCal) / 1000)));
+		inBetweenTimeB = System.currentTimeMillis() - inBetweenTimeA;
+		System.out.println("ETA " + (String.format("%.2f", (inBetweenTimeB * inBetweenCal) / 1000)));
+		inBetweenTimeA = inBetweenTimeB;
 	}
 	
 	private void inBetweenCalculations(){
